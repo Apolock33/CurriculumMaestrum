@@ -5,7 +5,7 @@ export default function Root() {
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="light" />
+      <StatusBar style="auto" />
     </View>
   );
 }

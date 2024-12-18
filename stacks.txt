@@ -1,8 +1,0 @@
-- React Native
-    - Pacotes
-        - Firebase foi
-        - Typescript foi
-        - Expo Routes foi
-        - Expo Authentication foi
-- Next.JS
-- Firebase
