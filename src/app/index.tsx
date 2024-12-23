@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     SafeAreaView,
     Animated,
-    useAnimatedValue
+    useAnimatedValue,
+    Easing
 } from 'react-native';
 import Colors from '@/constants/colors';
 import { StatusBar } from 'expo-status-bar';
@@ -18,6 +19,7 @@ import { signInWithEmailAndPassword, updateCurrentUser } from 'firebase/auth';
 import { auth } from '../../firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PopupModal from '@/components/general/popups';
+import { SignIn } from '@/services/authService';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -31,23 +33,27 @@ export default function Login() {
         Animated.timing(fadeAnim, {
             toValue: 15,
             duration: 4000,
-            useNativeDriver: true
+            easing: Easing.linear,
+            useNativeDriver: true,
+
         }).start();
     };
 
     const handleLogin = async () => {
         setLoading(true);
         rotate();
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            await AsyncStorage.setItem('user', JSON.stringify(userCredential.user));
-            updateCurrentUser(auth, userCredential.user);
-            setLoading(false);
-            router.replace('/(panel)/home/page');
-        } catch (error) {
-            setLoading(false);
-            setIsVisible(true);
-        }
+
+        await signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential: any) => {
+                AsyncStorage.setItem('user', JSON.stringify(userCredential.user));
+                updateCurrentUser(auth, userCredential.user);
+                setLoading(false);
+                router.replace('/(panel)/home/page');
+            })
+            .catch(() => {
+                setLoading(false);
+                setIsVisible(true);
+            })
     };
 
     return (
@@ -139,7 +145,7 @@ export default function Login() {
                     visible={isVisible}
                     title="Erro"
                     message={(email && password) ? "E-mail ou Senha incorretos." : "E-mail e Senha são campos\nobrigatórios."}
-                onClose={() => setIsVisible(!isVisible)}
+                    onClose={() => setIsVisible(!isVisible)}
                 />
             )}
         </SafeAreaView>

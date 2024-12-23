@@ -13,11 +13,10 @@ export default function SignUp() {
 
   return (
     <View style={styles.container}>
+
       <View>
-        <Image
-          source={require('@/assets/images/logo.png')}
-          style={styles.logo}
-        />
+        <Text style={styles.initialText}>Novo Acesso</Text>
+        <Text style={styles.subText}>{`Por favor, digite seus dados abaixo para\nque possamos saber mais sobre você!`}</Text>
       </View>
 
       <Input
@@ -88,8 +87,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.white
   },
-  logo: {
-    marginBottom: 50
+  initialText: {
+    marginBottom: 20,
+    fontFamily: 'Arvo-Regular',
+    fontSize: 30,
+    textAlign: 'left',
+    paddingHorizontal: 10
+  },
+  subText: {
+    marginBottom: 30,
+    fontFamily: 'Arvo-Regular',
+    fontSize: 15.5,
+    textAlign: 'left',
+    paddingHorizontal: 10,
+    maxWidth: 360,
+    wordWrap: 'break-word'
   },
   signUpLabel: {
     fontFamily: 'Arvo-Regular',
